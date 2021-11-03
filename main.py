@@ -1,12 +1,10 @@
-from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter, ImageOps
 import tkinter as tk
 from tkinter import ttk
 from tkinterdnd2 import *
 from tkinter import messagebox
-import numpy
 import os.path
 import webbrowser
-from skimage.color import rgb2lab, lab2rgb
 
 message = None
 root = None
@@ -14,21 +12,7 @@ MESSAGE = "gifにしたい画像ファイルをドロップしてください。
 
 
 def make_inv_img(img):
-    w, h = img.size
-    img = numpy.asarray(img)
-    for y in range(h):
-        for x in range(w):
-            r, g, b = img[y, x, 0:]
-            r = int(r)
-            g = int(g)
-            b = int(b)
-            c = 255
-            rate = min(255 / (c - r + 1), 255 / (c - g + 1), 255 / (c - b + 1))
-
-            img[y, x, 0] = min((c-r) * rate, 255)
-            img[y, x, 1] = min((c-g) * rate, 255)
-            img[y, x, 2] = min((c-b) * rate, 255)
-    img = Image.fromarray(img)
+    img=ImageOps.invert(img)
     img = ImageEnhance.Color(img).enhance(3.0)
     img = img.filter(filter=ImageFilter.GaussianBlur(radius=5))
     return img
