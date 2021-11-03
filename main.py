@@ -103,7 +103,7 @@ def make_gif(path):
         os.path.splitext(os.path.basename(path))[0]
     path = get_new_filename(fname, ".gif")
     images[0].save(path,
-                   save_all=True, append_images=images[1:], optimize=False, duration=[1, 6000, second * 1000, 4000, 4000], loop=0)
+                   save_all=True, append_images=images[1:], optimize=False, duration=[6000, second * 1000, 4000, 4000], loop=0)
     message.set(MESSAGE)
     messagebox.showinfo("処理が完了しました", os.path.basename(path) + "として保存しました。")
     webbrowser.open(path)
